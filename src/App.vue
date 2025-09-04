@@ -39,8 +39,8 @@ import { RouterLink, RouterView } from 'vue-router'
 }
 
 .header-content {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: 0 24px;
   display: flex;
   justify-content: space-between;

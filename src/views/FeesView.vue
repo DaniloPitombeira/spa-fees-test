@@ -100,6 +100,7 @@ onMounted(() => {
   min-height: 100vh;
   background: #f8f9fa;
   padding: 24px;
+  width: 100%;
 }
 
 .page-header {

@@ -175,6 +175,7 @@ watch(
   padding: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 24px;
+  width: 100%;
 }
 
 .filters-header {
@@ -214,6 +215,18 @@ watch(
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 16px;
+}
+
+@media (min-width: 1200px) {
+  .filters-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1600px) {
+  .filters-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 
 .filter-group {

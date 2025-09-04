@@ -148,6 +148,7 @@ const formatValue = (value: string): string => {
   border-radius: 8px;
   padding: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 .list-header {
@@ -213,14 +214,22 @@ const formatValue = (value: string): string => {
 .fees-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 800px;
+  min-width: 1000px;
+  table-layout: auto;
 }
 
 .fees-table th,
 .fees-table td {
-  padding: 12px;
+  padding: 12px 8px;
   text-align: left;
   border-bottom: 1px solid #ecf0f1;
+}
+
+@media (min-width: 1200px) {
+  .fees-table th,
+  .fees-table td {
+    padding: 16px 12px;
+  }
 }
 
 .fees-table th {
