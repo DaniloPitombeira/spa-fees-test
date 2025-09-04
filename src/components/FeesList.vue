@@ -145,10 +145,11 @@ const formatValue = (value: string): string => {
 <style scoped>
 .fees-list {
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   width: 100%;
+  border: 1px solid #e2e8f0;
 }
 
 .list-header {
@@ -160,12 +161,12 @@ const formatValue = (value: string): string => {
 
 .list-header h2 {
   margin: 0;
-  color: #2c3e50;
+  color: #1e293b;
   font-size: 1.5rem;
 }
 
 .results-info {
-  color: #7f8c8d;
+  color: #64748b;
   font-size: 0.9rem;
 }
 
@@ -179,8 +180,8 @@ const formatValue = (value: string): string => {
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #ecf0f1;
-  border-top: 4px solid #3498db;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #000000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
@@ -194,16 +195,16 @@ const formatValue = (value: string): string => {
 .error {
   padding: 24px;
   text-align: center;
-  color: #e74c3c;
-  background: #fdf2f2;
-  border: 1px solid #f5c6cb;
-  border-radius: 4px;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
 }
 
 .empty-state {
   padding: 48px;
   text-align: center;
-  color: #7f8c8d;
+  color: #64748b;
 }
 
 .table-container {
@@ -222,7 +223,7 @@ const formatValue = (value: string): string => {
 .fees-table td {
   padding: 12px 8px;
   text-align: left;
-  border-bottom: 1px solid #ecf0f1;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 @media (min-width: 1200px) {
@@ -233,21 +234,21 @@ const formatValue = (value: string): string => {
 }
 
 .fees-table th {
-  background: #f8f9fa;
+  background: #f1f5f9;
   font-weight: 600;
-  color: #2c3e50;
+  color: #374151;
   position: sticky;
   top: 0;
 }
 
 .fee-row:hover {
-  background: #f8f9fa;
+  background: #f8fafc;
 }
 
 .fee-id {
   font-family: monospace;
   font-weight: 600;
-  color: #3498db;
+  color: #000000;
 }
 
 .type-badge {
@@ -259,23 +260,23 @@ const formatValue = (value: string): string => {
 }
 
 .type-transaction {
-  background: #d4edda;
-  color: #155724;
+  background: #dcfce7;
+  color: #166534;
 }
 
 .type-service {
-  background: #d1ecf1;
-  color: #0c5460;
+  background: #f0f0f0;
+  color: #000000;
 }
 
 .type-processing {
-  background: #fff3cd;
-  color: #856404;
+  background: #dcfce7;
+  color: #166534;
 }
 
 .type-installment {
-  background: #f8d7da;
-  color: #721c24;
+  background: #fce7f3;
+  color: #be185d;
 }
 
 .value-type-badge {
@@ -287,13 +288,13 @@ const formatValue = (value: string): string => {
 }
 
 .value-type-percentage {
-  background: #e2e3e5;
-  color: #495057;
+  background: #f1f5f9;
+  color: #475569;
 }
 
 .value-type-fixed {
-  background: #d1ecf1;
-  color: #0c5460;
+  background: #f0f0f0;
+  color: #000000;
 }
 
 .status-badge {
@@ -305,13 +306,13 @@ const formatValue = (value: string): string => {
 }
 
 .status-active {
-  background: #d4edda;
-  color: #155724;
+  background: #dcfce7;
+  color: #166534;
 }
 
 .status-inactive {
-  background: #f8d7da;
-  color: #721c24;
+  background: #fee2e2;
+  color: #dc2626;
 }
 
 .amount {
@@ -325,18 +326,18 @@ const formatValue = (value: string): string => {
 }
 
 .view-btn {
-  background: #3498db;
+  background: #000000;
   color: white;
   border: none;
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 0.8rem;
   transition: background-color 0.2s;
 }
 
 .view-btn:hover {
-  background: #2980b9;
+  background: #333333;
 }
 
 .pagination {
@@ -344,25 +345,25 @@ const formatValue = (value: string): string => {
   justify-content: space-between;
   align-items: center;
   padding-top: 16px;
-  border-top: 1px solid #ecf0f1;
+  border-top: 1px solid #e2e8f0;
 }
 
 .page-btn {
-  background: #3498db;
+  background: #000000;
   color: white;
   border: none;
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .page-btn:hover:not(:disabled) {
-  background: #2980b9;
+  background: #333333;
 }
 
 .page-btn:disabled {
-  background: #bdc3c7;
+  background: #94a3b8;
   cursor: not-allowed;
 }
 

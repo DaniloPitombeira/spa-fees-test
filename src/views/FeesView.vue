@@ -98,7 +98,7 @@ onMounted(() => {
 <style scoped>
 .fees-view {
   min-height: 100vh;
-  background: #f8f9fa;
+  background: transparent;
   padding: 24px;
   width: 100%;
 }
@@ -111,14 +111,14 @@ onMounted(() => {
 
 .page-header h1 {
   margin: 0 0 12px 0;
-  color: #2c3e50;
+  color: #1e293b;
   font-size: 2.5rem;
   font-weight: 700;
 }
 
 .page-description {
   margin: 0;
-  color: #7f8c8d;
+  color: #64748b;
   font-size: 1.1rem;
   max-width: 600px;
   margin: 0 auto;
