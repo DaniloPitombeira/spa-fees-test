@@ -3,7 +3,7 @@
     <div class="page-header">
       <h1>Fees Management</h1>
       <p class="page-description">
-        Search and visualize fees by Product, Payment Type, Type, Sub Type, Cluster, and ID
+        Buscador por Id ou outras função de taxas em Billing
       </p>
     </div>
 

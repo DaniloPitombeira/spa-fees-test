@@ -140,7 +140,12 @@ class FeesApiService {
       
       // If we get here, the API is working
       this.isApiAvailable = true
-      return response.data
+      return {
+        data: response.data ?? response,
+        total: response.total ?? response.data?.length ?? response.length ?? 0,
+        page: response.page ?? page,
+        limit: response.limit ?? limit
+      }
     } catch {
       // handleAxiosError already called by interceptor
       // Return mock data for development when API is not available

@@ -27,7 +27,7 @@ export const useFeesStore = defineStore('fees', () => {
   async function fetchFees(newFilters?: FeeFilters, page = 1) {
     loading.value = true
     error.value = null
-    
+
     try {
       if (newFilters) {
         filters.value = { ...newFilters }
@@ -36,16 +36,24 @@ export const useFeesStore = defineStore('fees', () => {
         pagination.value.page = page
       }
 
-      const response: FeesResponse = await feesApiService.getFees(
-        filters.value,
-        pagination.value.page,
-        pagination.value.limit
-      )
-      
-      fees.value = response.data
-      pagination.value.total = response.total
-      pagination.value.page = response.page
-      pagination.value.limit = response.limit
+      // Se existir ID nos filtros, busca apenas pelo ID
+      if (filters.value.id) {
+        const fee = await feesApiService.getFeeById(filters.value.id)
+        fees.value = [fee]
+        pagination.value.total = 1
+        pagination.value.page = 1
+        pagination.value.limit = 20
+      } else {
+        const response: FeesResponse = await feesApiService.getFees(
+          filters.value,
+          pagination.value.page,
+          pagination.value.limit
+        )
+        fees.value = Array.isArray(response) ? response : response.data
+        pagination.value.total = response.total ?? (Array.isArray(response) ? response.length : 0)
+        pagination.value.page = response.page ?? 1
+        pagination.value.limit = response.limit ?? 20
+      }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred'
       console.error('Error fetching fees:', err)
