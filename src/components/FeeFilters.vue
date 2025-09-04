@@ -255,8 +255,8 @@ watch(
 .filter-group input:focus,
 .filter-group select:focus {
   outline: none;
-  border-color: #1e40af;
-  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+  border-color: #000000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
 .filter-group input::placeholder {

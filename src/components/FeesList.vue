@@ -181,7 +181,7 @@ const formatValue = (value: string): string => {
   width: 40px;
   height: 40px;
   border: 4px solid #e2e8f0;
-  border-top: 4px solid #1e40af;
+  border-top: 4px solid #000000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
@@ -248,7 +248,7 @@ const formatValue = (value: string): string => {
 .fee-id {
   font-family: monospace;
   font-weight: 600;
-  color: #1e40af;
+  color: #000000;
 }
 
 .type-badge {
@@ -265,13 +265,13 @@ const formatValue = (value: string): string => {
 }
 
 .type-service {
-  background: #dbeafe;
-  color: #1e40af;
+  background: #f0f0f0;
+  color: #000000;
 }
 
 .type-processing {
-  background: #fef3c7;
-  color: #92400e;
+  background: #dcfce7;
+  color: #166534;
 }
 
 .type-installment {
@@ -293,8 +293,8 @@ const formatValue = (value: string): string => {
 }
 
 .value-type-fixed {
-  background: #e0f2fe;
-  color: #0369a1;
+  background: #f0f0f0;
+  color: #000000;
 }
 
 .status-badge {
@@ -326,7 +326,7 @@ const formatValue = (value: string): string => {
 }
 
 .view-btn {
-  background: #1e40af;
+  background: #000000;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -337,7 +337,7 @@ const formatValue = (value: string): string => {
 }
 
 .view-btn:hover {
-  background: #1e3a8a;
+  background: #333333;
 }
 
 .pagination {
@@ -349,7 +349,7 @@ const formatValue = (value: string): string => {
 }
 
 .page-btn {
-  background: #1e40af;
+  background: #000000;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -359,7 +359,7 @@ const formatValue = (value: string): string => {
 }
 
 .page-btn:hover:not(:disabled) {
-  background: #1e3a8a;
+  background: #333333;
 }
 
 .page-btn:disabled {

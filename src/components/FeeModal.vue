@@ -278,7 +278,7 @@ watch(
   width: 40px;
   height: 40px;
   border: 4px solid #e2e8f0;
-  border-top: 4px solid #1e40af;
+  border-top: 4px solid #000000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
@@ -336,7 +336,7 @@ watch(
 .fee-id {
   font-family: monospace;
   font-weight: 600;
-  color: #1e40af;
+  color: #000000;
   font-size: 1.1rem;
 }
 
@@ -355,13 +355,13 @@ watch(
 }
 
 .type-service {
-  background: #dbeafe;
-  color: #1e40af;
+  background: #f0f0f0;
+  color: #000000;
 }
 
 .type-processing {
-  background: #fef3c7;
-  color: #92400e;
+  background: #dcfce7;
+  color: #166534;
 }
 
 .type-installment {
@@ -384,8 +384,8 @@ watch(
 }
 
 .value-type-fixed {
-  background: #e0f2fe;
-  color: #0369a1;
+  background: #f0f0f0;
+  color: #000000;
 }
 
 .status-badge {
@@ -445,8 +445,8 @@ watch(
 }
 
 .approval-status.pending {
-  background: #fef3c7;
-  color: #92400e;
+  background: #dcfce7;
+  color: #166534;
 }
 
 .fee-range {
@@ -490,7 +490,7 @@ watch(
   padding: 12px;
   background: #f8fafc;
   border-radius: 6px;
-  border-left: 4px solid #1e40af;
+  border-left: 4px solid #000000;
 }
 
 .variation-name {

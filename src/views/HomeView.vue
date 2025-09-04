@@ -63,7 +63,7 @@ import { RouterLink } from 'vue-router'
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
   color: white;
   padding: 80px 24px;
   text-align: center;
@@ -106,14 +106,14 @@ import { RouterLink } from 'vue-router'
 }
 
 .cta-button.primary {
-  background: #fbbf24;
-  color: #1e3a8a;
+  background: #22c55e;
+  color: #000000;
 }
 
 .cta-button.primary:hover {
-  background: #f59e0b;
+  background: #16a34a;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
 }
 
 .cta-button.secondary {
@@ -124,7 +124,7 @@ import { RouterLink } from 'vue-router'
 
 .cta-button.secondary:hover {
   background: white;
-  color: #1e3a8a;
+  color: #000000;
   transform: translateY(-2px);
 }
 

@@ -33,7 +33,7 @@ import { RouterLink, RouterView } from 'vue-router'
 }
 
 .app-header {
-  background: linear-gradient(135deg, #1e3a8a, #1e40af);
+  background: linear-gradient(135deg, #000000, #1a1a1a);
   color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -52,7 +52,7 @@ import { RouterLink, RouterView } from 'vue-router'
   margin: 0;
   font-size: 1.8rem;
   font-weight: 700;
-  color: #fbbf24;
+  color: #22c55e;
 }
 
 .logo-section p {
@@ -77,12 +77,12 @@ import { RouterLink, RouterView } from 'vue-router'
 
 .nav-link:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: #fbbf24;
+  color: #22c55e;
 }
 
 .nav-link.router-link-active {
-  background: #fbbf24;
-  color: #1e3a8a;
+  background: #22c55e;
+  color: #000000;
 }
 
 .main-content {
