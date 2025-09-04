@@ -45,8 +45,13 @@ cp .env.example .env
 
 Edit `.env` to configure your ms-fees service:
 ```env
+# MS-Fees API Configuration
 VITE_MS_FEES_HOST=http://your-ms-fees-host:port
 VITE_MS_FEES_API_VERSION=v1
+
+# Set to 'true' to use mock data instead of making API calls
+# Useful for development when the MS-Fees service is not available
+VITE_USE_MOCK_DATA=false
 ```
 
 ## 🚀 Development
@@ -134,6 +139,7 @@ The application uses environment variables for configuration:
 |----------|-------------|---------|
 | `VITE_MS_FEES_HOST` | MS-Fees service host URL | `http://localhost:3000` |
 | `VITE_MS_FEES_API_VERSION` | API version | `v1` |
+| `VITE_USE_MOCK_DATA` | Force use of mock data instead of API calls | `false` |
 
 ## 📱 Responsive Design
 
@@ -153,10 +159,12 @@ The application integrates with ms-fees service via REST API:
 
 ## 🚦 API Error Handling
 
-- Graceful fallback to mock data when API is unavailable
-- User-friendly error messages
-- Loading states for better UX
-- Retry mechanisms for transient failures
+- **Intelligent Fallback**: Graceful fallback to mock data when API is unavailable
+- **Smart Retry Logic**: Avoids repeated failed requests by tracking API availability
+- **Request Timeout**: 5-second timeout to prevent hanging requests
+- **User-friendly Messages**: Clear warning messages instead of errors in console
+- **Configuration Control**: Option to force mock data usage via environment variable
+- **Development Mode**: Seamless development experience even without backend service
 
 ## 🎨 UI/UX Features
 

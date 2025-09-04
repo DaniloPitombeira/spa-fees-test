@@ -2,14 +2,44 @@ import type { Fee, FeesResponse, FeeFilters } from '@/types/fee'
 
 const API_BASE_URL = import.meta.env.VITE_MS_FEES_HOST || 'http://localhost:3000'
 const API_VERSION = import.meta.env.VITE_MS_FEES_API_VERSION || 'v1'
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true'
 
 class FeesApiService {
   private baseUrl = `${API_BASE_URL}/api/${API_VERSION}`
+  private isApiAvailable = true
+
+  /**
+   * Reset API availability status - useful for retrying after connection issues
+   */
+  resetApiStatus() {
+    this.isApiAvailable = true
+  }
+
+  /**
+   * Check if the API is currently marked as available
+   */
+  getApiStatus() {
+    return {
+      isAvailable: this.isApiAvailable,
+      baseUrl: this.baseUrl,
+      useMockData: USE_MOCK_DATA
+    }
+  }
 
   /**
    * Fetch fees with optional filters
    */
   async getFees(filters?: FeeFilters, page = 1, limit = 20): Promise<FeesResponse> {
+    // Use mock data directly if configured
+    if (USE_MOCK_DATA) {
+      return this.getMockFees(filters, page, limit)
+    }
+
+    // If API was previously unavailable, use mock data to avoid repeated failed requests
+    if (!this.isApiAvailable) {
+      return this.getMockFees(filters, page, limit)
+    }
+
     try {
       const params = new URLSearchParams()
       
@@ -24,15 +54,42 @@ class FeesApiService {
       params.append('page', page.toString())
       params.append('limit', limit.toString())
 
-      const response = await fetch(`${this.baseUrl}/fees?${params}`)
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
+
+      const response = await fetch(`${this.baseUrl}/fees?${params}`, {
+        signal: controller.signal,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      })
+      
+      clearTimeout(timeoutId)
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
       
-      return await response.json()
+      const data = await response.json()
+      
+      // If we get here, the API is working
+      this.isApiAvailable = true
+      return data
     } catch (error) {
-      console.error('Error fetching fees:', error)
+      // Mark API as unavailable for subsequent requests
+      this.isApiAvailable = false
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          console.warn('⚠️ MS-Fees API request timed out. Using mock data instead.')
+        } else if (error.message.includes('Failed to fetch')) {
+          console.warn('⚠️ MS-Fees API not available. Using mock data instead. Check if the service is running at:', this.baseUrl)
+        } else {
+          console.warn('⚠️ MS-Fees API error:', error.message, '. Using mock data instead.')
+        }
+      }
+      
       // Return mock data for development when API is not available
       return this.getMockFees(filters, page, limit)
     }
@@ -42,16 +99,53 @@ class FeesApiService {
    * Get a specific fee by ID
    */
   async getFeeById(id: string): Promise<Fee> {
+    // Use mock data directly if configured
+    if (USE_MOCK_DATA) {
+      return this.getMockFeeById(id)
+    }
+
+    // If API was previously unavailable, use mock data
+    if (!this.isApiAvailable) {
+      return this.getMockFeeById(id)
+    }
+
     try {
-      const response = await fetch(`${this.baseUrl}/fees/${id}`)
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
+
+      const response = await fetch(`${this.baseUrl}/fees/${id}`, {
+        signal: controller.signal,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      })
+      
+      clearTimeout(timeoutId)
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
       
-      return await response.json()
+      const data = await response.json()
+      
+      // If we get here, the API is working
+      this.isApiAvailable = true
+      return data
     } catch (error) {
-      console.error('Error fetching fee:', error)
+      // Mark API as unavailable for subsequent requests
+      this.isApiAvailable = false
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          console.warn('⚠️ MS-Fees API request timed out. Using mock data instead.')
+        } else if (error.message.includes('Failed to fetch')) {
+          console.warn('⚠️ MS-Fees API not available. Using mock data instead. Check if the service is running at:', this.baseUrl)
+        } else {
+          console.warn('⚠️ MS-Fees API error:', error.message, '. Using mock data instead.')
+        }
+      }
+      
       // Return mock data for development
       return this.getMockFeeById(id)
     }
