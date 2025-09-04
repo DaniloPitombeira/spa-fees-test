@@ -171,11 +171,12 @@ watch(
 <style scoped>
 .fee-filters {
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   margin-bottom: 24px;
   width: 100%;
+  border: 1px solid #e2e8f0;
 }
 
 .filters-header {
@@ -187,27 +188,27 @@ watch(
 
 .filters-header h2 {
   margin: 0;
-  color: #2c3e50;
+  color: #1e293b;
   font-size: 1.5rem;
 }
 
 .clear-btn {
-  background: #e74c3c;
+  background: #dc2626;
   color: white;
   border: none;
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
   transition: background-color 0.2s;
 }
 
 .clear-btn:hover:not(:disabled) {
-  background: #c0392b;
+  background: #b91c1c;
 }
 
 .clear-btn:disabled {
-  background: #bdc3c7;
+  background: #94a3b8;
   cursor: not-allowed;
 }
 
@@ -237,15 +238,15 @@ watch(
 .filter-group label {
   font-weight: 600;
   margin-bottom: 8px;
-  color: #2c3e50;
+  color: #374151;
   font-size: 0.9rem;
 }
 
 .filter-group input,
 .filter-group select {
   padding: 12px;
-  border: 2px solid #ecf0f1;
-  border-radius: 4px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.2s;
   background: white;
@@ -254,11 +255,12 @@ watch(
 .filter-group input:focus,
 .filter-group select:focus {
   outline: none;
-  border-color: #3498db;
+  border-color: #1e40af;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
 }
 
 .filter-group input::placeholder {
-  color: #95a5a6;
+  color: #9ca3af;
 }
 
 @media (max-width: 768px) {

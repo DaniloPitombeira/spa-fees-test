@@ -63,7 +63,7 @@ import { RouterLink } from 'vue-router'
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
   color: white;
   padding: 80px 24px;
   text-align: center;
@@ -106,14 +106,14 @@ import { RouterLink } from 'vue-router'
 }
 
 .cta-button.primary {
-  background: #3498db;
-  color: white;
+  background: #fbbf24;
+  color: #1e3a8a;
 }
 
 .cta-button.primary:hover {
-  background: #2980b9;
+  background: #f59e0b;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+  box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
 }
 
 .cta-button.secondary {
@@ -124,13 +124,13 @@ import { RouterLink } from 'vue-router'
 
 .cta-button.secondary:hover {
   background: white;
-  color: #667eea;
+  color: #1e3a8a;
   transform: translateY(-2px);
 }
 
 .features-section {
   padding: 80px 24px;
-  background: #f8f9fa;
+  background: transparent;
 }
 
 .features-container {
@@ -141,7 +141,7 @@ import { RouterLink } from 'vue-router'
 .features-container h2 {
   text-align: center;
   font-size: 2.5rem;
-  color: #2c3e50;
+  color: #1e293b;
   margin: 0 0 60px 0;
   font-weight: 700;
 }
@@ -172,14 +172,14 @@ import { RouterLink } from 'vue-router'
 }
 
 .feature-card h3 {
-  color: #2c3e50;
+  color: #1e293b;
   font-size: 1.5rem;
   margin: 0 0 16px 0;
   font-weight: 600;
 }
 
 .feature-card p {
-  color: #7f8c8d;
+  color: #64748b;
   line-height: 1.6;
   margin: 0;
   font-size: 1rem;
