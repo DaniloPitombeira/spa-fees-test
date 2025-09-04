@@ -150,12 +150,32 @@ The application is fully responsive and optimized for:
 
 ## 🔄 API Integration
 
-The application integrates with ms-fees service via REST API:
+The application integrates with ms-fees service via REST API using **Axios** for robust HTTP client functionality:
 
 - `GET /api/{version}/fees` - List fees with filters and pagination
 - `GET /api/{version}/fees/{id}` - Get specific fee details
 
+**Key Features:**
+- **Axios HTTP Client**: Modern HTTP client with comprehensive error handling
+- **Request Timeout**: 5-second timeout to prevent hanging requests
+- **Intelligent Retry Logic**: Avoids repeated failed requests by tracking API availability
+- **Request/Response Interceptors**: Automatic error handling and logging
+- **Development Testing**: QA environment integration testing built-in
+
 **Fallback**: When the ms-fees service is unavailable, the application uses mock data for development and testing.
+
+### 🧪 Testing QA Integration
+
+In development mode, you can test the QA environment integration:
+
+1. Open browser console while running `npm run dev`
+2. Run the following command:
+```javascript
+// Test QA environment connection
+await testQaIntegration()
+```
+
+This will test the connection to `http://ms-fees.ms.qa/api/v1/fees` and provide detailed feedback about the API availability.
 
 ## 🚦 API Error Handling
 

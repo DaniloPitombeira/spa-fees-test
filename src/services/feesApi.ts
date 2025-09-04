@@ -1,3 +1,4 @@
+import axios, { type AxiosInstance, type AxiosError } from 'axios'
 import type { Fee, FeesResponse, FeeFilters } from '@/types/fee'
 
 const API_BASE_URL = import.meta.env.VITE_MS_FEES_HOST || 'http://localhost:3000'
@@ -7,7 +8,88 @@ const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true'
 class FeesApiService {
   private baseUrl = `${API_BASE_URL}/api/${API_VERSION}`
   private isApiAvailable = true
+  private axiosInstance: AxiosInstance
 
+  constructor() {
+    this.axiosInstance = axios.create({
+      baseURL: this.baseUrl,
+      timeout: 5000, // 5 second timeout
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+
+    // Add response interceptor for error handling
+    this.axiosInstance.interceptors.response.use(
+      (response) => response,
+      (error: AxiosError) => {
+        this.handleAxiosError(error)
+        return Promise.reject(error)
+      }
+    )
+  }
+
+  /**
+   * Handle axios errors and mark API as unavailable
+   */
+  private handleAxiosError(error: AxiosError) {
+    this.isApiAvailable = false
+    
+    if (error.code === 'ECONNABORTED') {
+      console.warn('⚠️ MS-Fees API request timed out. Using mock data instead.')
+    } else if (error.code === 'ECONNREFUSED' || error.code === 'ENOTFOUND') {
+      console.warn('⚠️ MS-Fees API not available. Using mock data instead. Check if the service is running at:', this.baseUrl)
+    } else if (error.response?.status) {
+      console.warn(`⚠️ MS-Fees API error: HTTP ${error.response.status} - ${error.response.statusText}. Using mock data instead.`)
+    } else {
+      console.warn('⚠️ MS-Fees API connection error:', error.message, '. Using mock data instead.')
+    }
+  }
+
+  /**
+   * Test integration with the QA environment
+   */
+  async testQaIntegration(): Promise<{ success: boolean; message: string; data?: unknown }> {
+    const qaUrl = 'http://ms-fees.ms.qa/api/v1/fees'
+    
+    try {
+      const qaAxios = axios.create({
+        timeout: 5000,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      })
+
+      const response = await qaAxios.get(qaUrl)
+      
+      return {
+        success: true,
+        message: `Successfully connected to QA environment at ${qaUrl}`,
+        data: response.data
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError
+      let message = `Failed to connect to QA environment at ${qaUrl}`
+      
+      if (axiosError.code === 'ECONNABORTED') {
+        message += ' - Request timed out'
+      } else if (axiosError.code === 'ECONNREFUSED' || axiosError.code === 'ENOTFOUND') {
+        message += ' - Connection refused or host not found'
+      } else if (axiosError.response?.status) {
+        message += ` - HTTP ${axiosError.response.status}: ${axiosError.response.statusText}`
+      } else {
+        message += ` - ${axiosError.message}`
+      }
+      
+      return {
+        success: false,
+        message,
+        data: null
+      }
+    }
+  }
   /**
    * Reset API availability status - useful for retrying after connection issues
    */
@@ -41,55 +123,26 @@ class FeesApiService {
     }
 
     try {
-      const params = new URLSearchParams()
+      const params: Record<string, string> = {}
       
       if (filters) {
         Object.entries(filters).forEach(([key, value]) => {
-          if (value) {
-            params.append(key, value)
+          if (value !== undefined && value !== null && value !== '') {
+            params[key] = value.toString()
           }
         })
       }
       
-      params.append('page', page.toString())
-      params.append('limit', limit.toString())
+      params.page = page.toString()
+      params.limit = limit.toString()
 
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
-
-      const response = await fetch(`${this.baseUrl}/fees?${params}`, {
-        signal: controller.signal,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      })
-      
-      clearTimeout(timeoutId)
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-      }
-      
-      const data = await response.json()
+      const response = await this.axiosInstance.get('/fees', { params })
       
       // If we get here, the API is working
       this.isApiAvailable = true
-      return data
-    } catch (error) {
-      // Mark API as unavailable for subsequent requests
-      this.isApiAvailable = false
-      
-      if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          console.warn('⚠️ MS-Fees API request timed out. Using mock data instead.')
-        } else if (error.message.includes('Failed to fetch')) {
-          console.warn('⚠️ MS-Fees API not available. Using mock data instead. Check if the service is running at:', this.baseUrl)
-        } else {
-          console.warn('⚠️ MS-Fees API error:', error.message, '. Using mock data instead.')
-        }
-      }
-      
+      return response.data
+    } catch {
+      // handleAxiosError already called by interceptor
       // Return mock data for development when API is not available
       return this.getMockFees(filters, page, limit)
     }
@@ -110,42 +163,13 @@ class FeesApiService {
     }
 
     try {
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
-
-      const response = await fetch(`${this.baseUrl}/fees/${id}`, {
-        signal: controller.signal,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      })
-      
-      clearTimeout(timeoutId)
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-      }
-      
-      const data = await response.json()
+      const response = await this.axiosInstance.get(`/fees/${id}`)
       
       // If we get here, the API is working
       this.isApiAvailable = true
-      return data
-    } catch (error) {
-      // Mark API as unavailable for subsequent requests
-      this.isApiAvailable = false
-      
-      if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          console.warn('⚠️ MS-Fees API request timed out. Using mock data instead.')
-        } else if (error.message.includes('Failed to fetch')) {
-          console.warn('⚠️ MS-Fees API not available. Using mock data instead. Check if the service is running at:', this.baseUrl)
-        } else {
-          console.warn('⚠️ MS-Fees API error:', error.message, '. Using mock data instead.')
-        }
-      }
-      
+      return response.data
+    } catch {
+      // handleAxiosError already called by interceptor
       // Return mock data for development
       return this.getMockFeeById(id)
     }
