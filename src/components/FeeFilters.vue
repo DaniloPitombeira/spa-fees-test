@@ -44,6 +44,18 @@
         />
       </div>
 
+      <!-- Payment Type Filter -->
+      <div class="filter-group">
+        <label for="payment_type">Payment Type</label>
+        <input
+          id="payment_type"
+          v-model="localFilters.payment_type"
+          type="text"
+          placeholder="Filter by payment type..."
+          @input="debouncedUpdate"
+        />
+      </div>
+
       <!-- Type Filter -->
       <div class="filter-group">
         <label for="type">Type</label>
@@ -52,6 +64,18 @@
           v-model="localFilters.type"
           type="text"
           placeholder="Filter by type..."
+          @input="debouncedUpdate"
+        />
+      </div>
+
+      <!-- Sub Type Filter -->
+      <div class="filter-group">
+        <label for="sub_type">Sub Type</label>
+        <input
+          id="sub_type"
+          v-model="localFilters.sub_type"
+          type="text"
+          placeholder="Filter by sub type..."
           @input="debouncedUpdate"
         />
       </div>
@@ -68,16 +92,18 @@
         />
       </div>
 
-      <!-- Consumer Filter -->
+      <!-- Active Status Filter -->
       <div class="filter-group">
-        <label for="consumer">Consumer</label>
-        <input
-          id="consumer"
-          v-model="localFilters.consumer"
-          type="text"
-          placeholder="Filter by consumer..."
-          @input="debouncedUpdate"
-        />
+        <label for="active">Status</label>
+        <select
+          id="active"
+          v-model="localFilters.active"
+          @change="debouncedUpdate"
+        >
+          <option value="">All</option>
+          <option :value="true">Active</option>
+          <option :value="false">Inactive</option>
+        </select>
       </div>
     </div>
   </div>
@@ -105,7 +131,12 @@ const localFilters = ref<FeeFilters>({ ...props.filters })
 
 // Computed
 const hasActiveFilters = computed(() => {
-  return Object.values(localFilters.value).some(value => value && value.length > 0)
+  return Object.entries(localFilters.value).some(([key, value]) => {
+    if (key === 'active') {
+      return value !== undefined && value !== null
+    }
+    return value && typeof value === 'string' && value.length > 0
+  })
 })
 
 // Debounced update function
@@ -197,15 +228,18 @@ watch(
   font-size: 0.9rem;
 }
 
-.filter-group input {
+.filter-group input,
+.filter-group select {
   padding: 12px;
   border: 2px solid #ecf0f1;
   border-radius: 4px;
   font-size: 1rem;
   transition: border-color 0.2s;
+  background: white;
 }
 
-.filter-group input:focus {
+.filter-group input:focus,
+.filter-group select:focus {
   outline: none;
   border-color: #3498db;
 }

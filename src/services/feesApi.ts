@@ -63,59 +63,168 @@ class FeesApiService {
   private getMockFees(filters?: FeeFilters, page = 1, limit = 20): FeesResponse {
     const mockFees: Fee[] = [
       {
-        id: '1',
-        product: 'Product A',
-        type: 'Transaction',
-        cluster: 'Cluster 1',
-        consumer: 'Consumer X',
-        amount: 10.50,
-        currency: 'USD',
-        createdAt: '2024-01-01T10:00:00Z',
-        updatedAt: '2024-01-01T10:00:00Z'
+        id: '677ece2d5ce0a1204c0d6e60',
+        product: 'P2PP2P',
+        payment_type: 'CREDIT_CARD',
+        type: 'INSTALLMENT',
+        sub_type: 'DEFAULT',
+        priority: 1,
+        value: '4.4900',
+        value_type: 'PERCENTAGE',
+        min_value: '0.0000',
+        effective_interval: {
+          start_date: '2025-03-03 00:00:00',
+          end_date: '2025-04-04 23:59:59',
+          approved: true
+        },
+        cluster: 'CLUSTER_XPTO',
+        bin_list: ['123456'],
+        variations: [
+          {
+            name: 'CONSUMER_ONBOARDING',
+            value: '0.5000'
+          }
+        ],
+        balancing_data: {
+          convenience_value: '0.0000',
+          progressive_discount_value: '0.0000'
+        },
+        active: true,
+        fee_range: {
+          min: '1.0000',
+          max: '9.0000'
+        }
       },
       {
-        id: '2',
-        product: 'Product B',
-        type: 'Service',
-        cluster: 'Cluster 2',
-        consumer: 'Consumer Y',
-        amount: 25.00,
-        currency: 'USD',
-        createdAt: '2024-01-02T11:00:00Z',
-        updatedAt: '2024-01-02T11:00:00Z'
+        id: '677ece2d5ce0a1204c0d6e61',
+        product: 'PIX',
+        payment_type: 'PIX',
+        type: 'TRANSACTION',
+        sub_type: 'STANDARD',
+        priority: 2,
+        value: '2.5000',
+        value_type: 'FIXED',
+        min_value: '1.0000',
+        effective_interval: {
+          start_date: '2025-01-01 00:00:00',
+          end_date: '2025-12-31 23:59:59',
+          approved: true
+        },
+        cluster: 'CLUSTER_PIX',
+        bin_list: ['654321'],
+        variations: [
+          {
+            name: 'PREMIUM_USER',
+            value: '1.0000'
+          }
+        ],
+        balancing_data: {
+          convenience_value: '0.1000',
+          progressive_discount_value: '0.0500'
+        },
+        active: true,
+        fee_range: {
+          min: '0.5000',
+          max: '5.0000'
+        }
       },
       {
-        id: '3',
-        product: 'Product A',
-        type: 'Processing',
-        cluster: 'Cluster 1',
-        consumer: 'Consumer Z',
-        amount: 5.75,
-        currency: 'EUR',
-        createdAt: '2024-01-03T12:00:00Z',
-        updatedAt: '2024-01-03T12:00:00Z'
+        id: '677ece2d5ce0a1204c0d6e62',
+        product: 'DEBIT_CARD',
+        payment_type: 'DEBIT_CARD',
+        type: 'PROCESSING',
+        sub_type: 'EXPRESS',
+        priority: 3,
+        value: '1.2500',
+        value_type: 'PERCENTAGE',
+        min_value: '0.5000',
+        effective_interval: {
+          start_date: '2025-02-01 00:00:00',
+          end_date: '2025-06-30 23:59:59',
+          approved: false
+        },
+        cluster: 'CLUSTER_DEBIT',
+        bin_list: ['789012', '345678'],
+        variations: [
+          {
+            name: 'BUSINESS_ACCOUNT',
+            value: '0.7500'
+          },
+          {
+            name: 'VIP_CLIENT',
+            value: '0.2500'
+          }
+        ],
+        balancing_data: {
+          convenience_value: '0.0500',
+          progressive_discount_value: '0.1000'
+        },
+        active: true,
+        fee_range: {
+          min: '0.2500',
+          max: '3.0000'
+        }
       },
       {
-        id: '4',
-        product: 'Product C',
-        type: 'Transaction',
-        cluster: 'Cluster 3',
-        consumer: 'Consumer X',
-        amount: 15.25,
-        currency: 'USD',
-        createdAt: '2024-01-04T13:00:00Z',
-        updatedAt: '2024-01-04T13:00:00Z'
+        id: '677ece2d5ce0a1204c0d6e63',
+        product: 'TED',
+        payment_type: 'BANK_TRANSFER',
+        type: 'SERVICE',
+        sub_type: 'PREMIUM',
+        priority: 1,
+        value: '15.0000',
+        value_type: 'FIXED',
+        min_value: '10.0000',
+        effective_interval: {
+          start_date: '2025-01-15 00:00:00',
+          end_date: '2025-07-15 23:59:59',
+          approved: true
+        },
+        cluster: 'CLUSTER_BANK',
+        bin_list: ['901234'],
+        variations: [],
+        balancing_data: {
+          convenience_value: '2.0000',
+          progressive_discount_value: '1.0000'
+        },
+        active: true,
+        fee_range: {
+          min: '10.0000',
+          max: '25.0000'
+        }
       },
       {
-        id: '5',
-        product: 'Product B',
-        type: 'Service',
-        cluster: 'Cluster 2',
-        consumer: 'Consumer W',
-        amount: 30.00,
-        currency: 'GBP',
-        createdAt: '2024-01-05T14:00:00Z',
-        updatedAt: '2024-01-05T14:00:00Z'
+        id: '677ece2d5ce0a1204c0d6e64',
+        product: 'BOLETO',
+        payment_type: 'BOLETO',
+        type: 'TRANSACTION',
+        sub_type: 'STANDARD',
+        priority: 2,
+        value: '3.9900',
+        value_type: 'FIXED',
+        min_value: '2.0000',
+        effective_interval: {
+          start_date: '2025-01-01 00:00:00',
+          end_date: '2025-12-31 23:59:59',
+          approved: true
+        },
+        cluster: 'CLUSTER_BOLETO',
+        bin_list: ['567890'],
+        variations: [
+          {
+            name: 'BULK_DISCOUNT',
+            value: '3.0000'
+          }
+        ],
+        balancing_data: {
+          convenience_value: '0.5000',
+          progressive_discount_value: '0.2500'
+        },
+        active: false,
+        fee_range: {
+          min: '2.0000',
+          max: '8.0000'
+        }
       }
     ]
 
@@ -126,14 +235,17 @@ class FeesApiService {
         return (
           (!filters.id || fee.id.includes(filters.id)) &&
           (!filters.product || fee.product.toLowerCase().includes(filters.product.toLowerCase())) &&
+          (!filters.payment_type || fee.payment_type.toLowerCase().includes(filters.payment_type.toLowerCase())) &&
           (!filters.type || fee.type.toLowerCase().includes(filters.type.toLowerCase())) &&
+          (!filters.sub_type || fee.sub_type.toLowerCase().includes(filters.sub_type.toLowerCase())) &&
           (!filters.cluster || fee.cluster.toLowerCase().includes(filters.cluster.toLowerCase())) &&
-          (!filters.consumer || fee.consumer.toLowerCase().includes(filters.consumer.toLowerCase())) &&
+          (filters.active === undefined || fee.active === filters.active) &&
           (!filters.search || 
             fee.product.toLowerCase().includes(filters.search.toLowerCase()) ||
+            fee.payment_type.toLowerCase().includes(filters.search.toLowerCase()) ||
             fee.type.toLowerCase().includes(filters.search.toLowerCase()) ||
+            fee.sub_type.toLowerCase().includes(filters.search.toLowerCase()) ||
             fee.cluster.toLowerCase().includes(filters.search.toLowerCase()) ||
-            fee.consumer.toLowerCase().includes(filters.search.toLowerCase()) ||
             fee.id.includes(filters.search)
           )
         )
@@ -156,14 +268,36 @@ class FeesApiService {
   private getMockFeeById(id: string): Fee {
     return {
       id,
-      product: 'Product A',
-      type: 'Transaction',
-      cluster: 'Cluster 1',
-      consumer: 'Consumer X',
-      amount: 10.50,
-      currency: 'USD',
-      createdAt: '2024-01-01T10:00:00Z',
-      updatedAt: '2024-01-01T10:00:00Z'
+      product: 'P2PP2P',
+      payment_type: 'CREDIT_CARD',
+      type: 'INSTALLMENT',
+      sub_type: 'DEFAULT',
+      priority: 1,
+      value: '4.4900',
+      value_type: 'PERCENTAGE',
+      min_value: '0.0000',
+      effective_interval: {
+        start_date: '2025-03-03 00:00:00',
+        end_date: '2025-04-04 23:59:59',
+        approved: true
+      },
+      cluster: 'CLUSTER_XPTO',
+      bin_list: ['123456'],
+      variations: [
+        {
+          name: 'CONSUMER_ONBOARDING',
+          value: '0.5000'
+        }
+      ],
+      balancing_data: {
+        convenience_value: '0.0000',
+        progressive_discount_value: '0.0000'
+      },
+      active: true,
+      fee_range: {
+        min: '1.0000',
+        max: '9.0000'
+      }
     }
   }
 }

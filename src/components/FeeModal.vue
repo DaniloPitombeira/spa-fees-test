@@ -31,10 +31,42 @@
             </div>
             
             <div class="detail-item">
+              <label>Payment Type</label>
+              <span>{{ fee.payment_type }}</span>
+            </div>
+            
+            <div class="detail-item">
               <label>Type</label>
               <span class="type-badge" :class="`type-${fee.type.toLowerCase()}`">
                 {{ fee.type }}
               </span>
+            </div>
+            
+            <div class="detail-item">
+              <label>Sub Type</label>
+              <span>{{ fee.sub_type }}</span>
+            </div>
+            
+            <div class="detail-item">
+              <label>Priority</label>
+              <span class="priority">{{ fee.priority }}</span>
+            </div>
+            
+            <div class="detail-item">
+              <label>Value</label>
+              <span class="amount">{{ formatValue(fee.value) }}</span>
+            </div>
+            
+            <div class="detail-item">
+              <label>Value Type</label>
+              <span class="value-type-badge" :class="`value-type-${fee.value_type.toLowerCase()}`">
+                {{ fee.value_type }}
+              </span>
+            </div>
+            
+            <div class="detail-item">
+              <label>Min Value</label>
+              <span>{{ formatValue(fee.min_value) }}</span>
             </div>
             
             <div class="detail-item">
@@ -43,28 +75,61 @@
             </div>
             
             <div class="detail-item">
-              <label>Consumer</label>
-              <span>{{ fee.consumer }}</span>
+              <label>Status</label>
+              <span class="status-badge" :class="fee.active ? 'status-active' : 'status-inactive'">
+                {{ fee.active ? 'Active' : 'Inactive' }}
+              </span>
             </div>
             
-            <div class="detail-item">
-              <label>Amount</label>
-              <span class="amount">{{ formatAmount(fee.amount) }}</span>
+            <div class="detail-item full-width">
+              <label>Effective Period</label>
+              <div class="date-range">
+                <span>{{ formatDate(fee.effective_interval.start_date) }}</span>
+                <span class="to">to</span>
+                <span>{{ formatDate(fee.effective_interval.end_date) }}</span>
+                <span class="approval-status" :class="fee.effective_interval.approved ? 'approved' : 'pending'">
+                  {{ fee.effective_interval.approved ? 'Approved' : 'Pending Approval' }}
+                </span>
+              </div>
             </div>
             
-            <div class="detail-item">
-              <label>Currency</label>
-              <span class="currency">{{ fee.currency }}</span>
+            <div class="detail-item full-width">
+              <label>Fee Range</label>
+              <div class="fee-range">
+                <span>Min: {{ formatValue(fee.fee_range.min) }}</span>
+                <span>Max: {{ formatValue(fee.fee_range.max) }}</span>
+              </div>
             </div>
             
-            <div class="detail-item">
-              <label>Created At</label>
-              <span>{{ formatDate(fee.createdAt) }}</span>
+            <div class="detail-item full-width" v-if="fee.bin_list.length > 0">
+              <label>BIN List</label>
+              <div class="bin-list">
+                <span v-for="bin in fee.bin_list" :key="bin" class="bin-item">{{ bin }}</span>
+              </div>
             </div>
             
-            <div class="detail-item">
-              <label>Updated At</label>
-              <span>{{ formatDate(fee.updatedAt) }}</span>
+            <div class="detail-item full-width" v-if="fee.variations.length > 0">
+              <label>Variations</label>
+              <div class="variations">
+                <div v-for="variation in fee.variations" :key="variation.name" class="variation-item">
+                  <span class="variation-name">{{ variation.name }}</span>
+                  <span class="variation-value">{{ formatValue(variation.value) }}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="detail-item full-width">
+              <label>Balancing Data</label>
+              <div class="balancing-data">
+                <div class="balancing-item">
+                  <span class="balancing-label">Convenience Value:</span>
+                  <span>{{ formatValue(fee.balancing_data.convenience_value) }}</span>
+                </div>
+                <div class="balancing-item">
+                  <span class="balancing-label">Progressive Discount:</span>
+                  <span>{{ formatValue(fee.balancing_data.progressive_discount_value) }}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -103,11 +168,11 @@ const closeModal = () => {
   emit('close')
 }
 
-const formatAmount = (amount: number): string => {
-  return new Intl.NumberFormat('en-US', {
+const formatValue = (value: string): string => {
+  return parseFloat(value).toLocaleString('en-US', {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(amount)
+    maximumFractionDigits: 4
+  })
 }
 
 const formatDate = (dateString: string): string => {
@@ -116,8 +181,7 @@ const formatDate = (dateString: string): string => {
     month: 'long',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
+    minute: '2-digit'
   })
 }
 
@@ -251,6 +315,10 @@ watch(
   gap: 8px;
 }
 
+.detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
 .detail-item label {
   font-weight: 600;
   color: #7f8c8d;
@@ -296,15 +364,163 @@ watch(
   color: #856404;
 }
 
+.type-installment {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.value-type-badge {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.value-type-percentage {
+  background: #e2e3e5;
+  color: #495057;
+}
+
+.value-type-fixed {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.status-active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+
 .amount {
   font-weight: 600;
   font-size: 1.2rem;
   color: #27ae60;
 }
 
-.currency {
+.priority {
   font-weight: 600;
+  font-size: 1.1rem;
+  color: #e67e22;
+}
+
+.date-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-range .to {
   color: #7f8c8d;
+  font-style: italic;
+}
+
+.approval-status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.approval-status.approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.approval-status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.fee-range {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.fee-range span {
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.bin-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bin-item {
+  padding: 6px 12px;
+  background: #e9ecef;
+  border-radius: 16px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.variations {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.variation-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #3498db;
+}
+
+.variation-name {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.variation-value {
+  font-weight: 600;
+  color: #27ae60;
+}
+
+.balancing-data {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.balancing-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.balancing-label {
+  font-weight: 600;
+  color: #2c3e50;
 }
 
 .modal-footer {

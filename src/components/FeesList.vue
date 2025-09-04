@@ -32,12 +32,13 @@
           <tr>
             <th>ID</th>
             <th>Product</th>
+            <th>Payment Type</th>
             <th>Type</th>
+            <th>Sub Type</th>
+            <th>Value</th>
+            <th>Value Type</th>
             <th>Cluster</th>
-            <th>Consumer</th>
-            <th>Amount</th>
-            <th>Currency</th>
-            <th>Created</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -45,16 +46,25 @@
           <tr v-for="fee in fees" :key="fee.id" class="fee-row">
             <td class="fee-id">{{ fee.id }}</td>
             <td>{{ fee.product }}</td>
+            <td>{{ fee.payment_type }}</td>
             <td>
               <span class="type-badge" :class="`type-${fee.type.toLowerCase()}`">
                 {{ fee.type }}
               </span>
             </td>
+            <td>{{ fee.sub_type }}</td>
+            <td class="amount">{{ formatValue(fee.value) }}</td>
+            <td class="value-type">
+              <span class="value-type-badge" :class="`value-type-${fee.value_type.toLowerCase()}`">
+                {{ fee.value_type }}
+              </span>
+            </td>
             <td>{{ fee.cluster }}</td>
-            <td>{{ fee.consumer }}</td>
-            <td class="amount">{{ formatAmount(fee.amount) }}</td>
-            <td class="currency">{{ fee.currency }}</td>
-            <td>{{ formatDate(fee.createdAt) }}</td>
+            <td>
+              <span class="status-badge" :class="fee.active ? 'status-active' : 'status-inactive'">
+                {{ fee.active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
             <td>
               <button @click="$emit('viewFee', fee)" class="view-btn">
                 View
@@ -124,20 +134,10 @@ const startIndex = computed(() => (props.currentPage - 1) * props.limit + 1)
 const endIndex = computed(() => Math.min(props.currentPage * props.limit, props.total))
 
 // Helper functions
-const formatAmount = (amount: number): string => {
-  return new Intl.NumberFormat('en-US', {
+const formatValue = (value: string): string => {
+  return parseFloat(value).toLocaleString('en-US', {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(amount)
-}
-
-const formatDate = (dateString: string): string => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
+    maximumFractionDigits: 4
   })
 }
 </script>
@@ -264,12 +264,53 @@ const formatDate = (dateString: string): string => {
   color: #856404;
 }
 
+.type-installment {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.value-type-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.value-type-percentage {
+  background: #e2e3e5;
+  color: #495057;
+}
+
+.value-type-fixed {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+
 .amount {
   font-weight: 600;
   text-align: right;
 }
 
-.currency {
+.value-type {
   font-weight: 600;
   color: #7f8c8d;
 }

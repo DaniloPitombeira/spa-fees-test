@@ -3,7 +3,7 @@
     <div class="page-header">
       <h1>Fees Management</h1>
       <p class="page-description">
-        Search and visualize fees by Product, Type, Cluster, Consumer, and ID
+        Search and visualize fees by Product, Payment Type, Type, Sub Type, Cluster, and ID
       </p>
     </div>
 
